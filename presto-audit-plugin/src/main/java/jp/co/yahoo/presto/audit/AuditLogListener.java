@@ -51,6 +51,20 @@ public class AuditLogListener
     @Override
     public void queryCompleted(QueryCompletedEvent queryCompletedEvent)
     {
+        AuditRecord record = buildAuditRecord(queryCompletedEvent);
+
+        Gson obj = new GsonBuilder().disableHtmlEscaping().create();
+        try (FileWriter file = new FileWriter(auditLogPath + File.separator + auditLogFileName, true)) {
+            file.write(obj.toJson(record));
+            file.write(System.lineSeparator());
+        }
+        catch (Exception e) {
+            log.error("Error writing event log to file. file path=" + auditLogPath + ", file name=" + auditLogFileName + ", EventLog: " + obj);
+        }
+    }
+
+    public AuditRecord buildAuditRecord(QueryCompletedEvent queryCompletedEvent)
+    {
         DateTimeFormatter formatter =
                 DateTimeFormatter.ofPattern("yyyyMMddHHmmss.SSS").withZone(ZoneId.systemDefault());
 
@@ -77,14 +91,6 @@ public class AuditLogListener
         record.setClientUser(queryCompletedEvent.getContext().getUser());
         record.setUserAgent(queryCompletedEvent.getContext().getUserAgent().orElse(""));
         record.setSource(queryCompletedEvent.getContext().getSource().orElse(""));
-
-        Gson obj = new GsonBuilder().disableHtmlEscaping().create();
-        try (FileWriter file = new FileWriter(auditLogPath + File.separator + auditLogFileName, true)) {
-            file.write(obj.toJson(record));
-            file.write(System.lineSeparator());
-        }
-        catch (Exception e) {
-            log.error("Error writing event log to file. file path=" + auditLogPath + ", file name=" + auditLogFileName + ", EventLog: " + obj);
-        }
+        return record;
     }
 }
