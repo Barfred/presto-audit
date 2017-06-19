@@ -13,45 +13,31 @@
  */
 package jp.co.yahoo.presto.audit;
 
-import com.facebook.presto.spi.eventlistener.EventListener;
 import com.facebook.presto.spi.eventlistener.QueryCompletedEvent;
 import com.facebook.presto.spi.eventlistener.QueryContext;
-import com.facebook.presto.spi.eventlistener.QueryCreatedEvent;
 import com.facebook.presto.spi.eventlistener.QueryFailureInfo;
 import com.facebook.presto.spi.eventlistener.QueryIOMetadata;
 import com.facebook.presto.spi.eventlistener.QueryInputMetadata;
 import com.facebook.presto.spi.eventlistener.QueryMetadata;
-import com.facebook.presto.spi.eventlistener.QueryOutputMetadata;
 import com.facebook.presto.spi.eventlistener.QueryStatistics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.airlift.log.Logger;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
 import static org.testng.Assert.assertEquals;
 
 @Test(singleThreaded = true)
 public class TestAuditLogListener
 {
-
     @Test
     public void testBuildAuditRecord()
             throws URISyntaxException
