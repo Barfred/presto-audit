@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.testng.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(singleThreaded = true)
 public class TestAuditLogListener
@@ -95,6 +95,6 @@ public class TestAuditLogListener
         Gson obj = new GsonBuilder().disableHtmlEscaping().create();
 
         String expected = "{\"queryId\":\"20170606_044544_00024_nfhe3\",\"query\":\"select * from airdelays_s3_csv WHERE kw = 'dragon' limit 5\",\"uri\":\"http://192.168.144.47:8080/v1/query/20170521_140224_00002_gd5k3\",\"state\":\"FINISHED\",\"cpuTime\":0.1,\"wallTime\":0.0,\"queuedTime\":0.005,\"peakMemoryBytes\":10001,\"totalBytes\":10002,\"totalRows\":10003,\"createTime\":\"20170618010117.000\",\"executionStartTime\":\"20170618010117.000\",\"endTime\":\"20170618010117.000\",\"remoteClientAddress\":\"192.168.144.47\",\"clientUser\":\"test-user\",\"userAgent\":\"StatementClient 0.167\",\"source\":\"presto-cli\"}";
-        assertEquals(obj.toJson(record), expected);
+        assertThat(obj.toJson(record)).isEqualTo(expected);
     }
 }
