@@ -77,7 +77,7 @@ public class AuditLogListener
         record.setState(queryCompletedEvent.getMetadata().getQueryState());
 
         record.setCpuTime(queryCompletedEvent.getStatistics().getCpuTime().toMillis() / 1000.0);
-        record.setWallTime((queryCompletedEvent.getEndTime().toEpochMilli() - queryCompletedEvent.getExecutionStartTime().toEpochMilli()) / 1000.0);
+        record.setWallTime(queryCompletedEvent.getStatistics().getWallTime().toMillis() / 1000.0);
         record.setQueuedTime(queryCompletedEvent.getStatistics().getQueuedTime().toMillis() / 1000.0);
         record.setPeakMemoryBytes(queryCompletedEvent.getStatistics().getPeakMemoryBytes());
         record.setTotalBytes(queryCompletedEvent.getStatistics().getTotalBytes());
