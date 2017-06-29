@@ -59,7 +59,7 @@ public class AuditLogListener
             file.write(System.lineSeparator());
         }
         catch (Exception e) {
-            log.error("Error writing event log to file. file path=" + auditLogPath + ", file name=" + auditLogFileName + ", EventLog: " + obj);
+            log.error("Error writing event log to file. file path=" + auditLogPath + ", file name=" + auditLogFileName + ", EventLog:" + obj + ". ErrorMessage:" + e.getMessage());
         }
     }
 
